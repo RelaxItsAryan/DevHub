@@ -35,32 +35,39 @@ const articles = [...ARTICLES];
 
 // ─── BOOT SEQUENCE ────────────────────────────────────────────────────────────
 const bootLines = [
-  { t: '$ initializing DevHub v2.4.1...', d: 0 },
-  { t: '> connecting to sources: HackerNews, Dev.to, GitHub, Arxiv', d: 400 },
-  { t: '> fetching 847 articles [████████████] 100%', d: 900 },
-  { t: '> AI engine: Groq LPU — online ✓', d: 1300 },
-  { t: '> image CDN: connected ✓', d: 1600 },
-  { t: '> loading user session...', d: 1900 },
-  { t: '> ACCESS GRANTED ■', d: 2200 },
+  { t: '$ booting DevHub feed engine v2.5.0', d: 0 },
+  { t: '> linking sources: Hacker News | Dev.to | GitHub | arXiv', d: 350 },
+  { t: '> syncing 847 stories and ranking by momentum', d: 780 },
+  { t: '> indexing tags: ai, web dev, rust, infra, startups', d: 1180 },
+  { t: '> spinning up Groq summary lane', d: 1540 },
+  { t: '> restoring saved articles and profile stats', d: 1920 },
+  { t: '> feed console unlocked', d: 2280 },
 ];
 
 function runBoot() {
   const el = document.getElementById('boot-lines');
-  bootLines.forEach(({ t, d }) => {
+  const progress = document.getElementById('boot-progress-fill');
+  const status = document.getElementById('boot-status');
+  const total = bootLines.length;
+
+  bootLines.forEach(({ t, d }, i) => {
     setTimeout(() => {
       const line = document.createElement('div');
       line.className = 'boot-line';
       line.textContent = t;
       el.appendChild(line);
+      if (progress) progress.style.width = `${((i + 1) / total) * 100}%`;
+      if (status) status.textContent = t.replace(/^[$>]\s*/, '');
     }, d);
   });
-  setTimeout(endBoot, 2700);
+  setTimeout(endBoot, 2950);
 }
 
 function endBoot() {
   const boot = document.getElementById('boot');
-  boot.style.transition = 'opacity .4s';
+  boot.style.transition = 'opacity .4s, transform .4s';
   boot.style.opacity = '0';
+  boot.style.transform = 'scale(1.02)';
   setTimeout(() => {
     boot.style.display = 'none';
     document.getElementById('app').classList.add('visible');
@@ -123,9 +130,9 @@ function initMatrix() {
   }
 
   function draw() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillStyle = 'rgba(3, 8, 14, 0.09)';
     ctx.fillRect(0, 0, width, height);
-    ctx.fillStyle = '#00ff41';
+    ctx.fillStyle = '#4af2c5';
     ctx.font = '16px JetBrains Mono';
 
     drops.forEach((y, i) => {
