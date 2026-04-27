@@ -35,7 +35,7 @@ const articles = [...ARTICLES];
 
 // ─── BOOT SEQUENCE ────────────────────────────────────────────────────────────
 const bootLines = [
-  { t: '$ initializing DevPulse v2.4.1...', d: 0 },
+  { t: '$ initializing DevHub v2.4.1...', d: 0 },
   { t: '> connecting to sources: HackerNews, Dev.to, GitHub, Arxiv', d: 400 },
   { t: '> fetching 847 articles [████████████] 100%', d: 900 },
   { t: '> AI engine: Groq LPU — online ✓', d: 1300 },
