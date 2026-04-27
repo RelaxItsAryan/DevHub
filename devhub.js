@@ -2,6 +2,38 @@
 // Replace with your new Groq API key after regenerating it
 const GROQ_KEY = 'YOUR_GROQ_API_KEY_HERE';
 
+// ─── AUTH LOGIC ──────────────────────────────────────────────────────────
+function showAuthForm(type) {
+  const signInTab = document.getElementById('signInTab');
+  const signUpTab = document.getElementById('signUpTab');
+  const signInForm = document.getElementById('signin-form');
+  const signUpForm = document.getElementById('signup-form');
+  if (type === 'signin') {
+    signInTab.classList.add('active');
+    signUpTab.classList.remove('active');
+    signInForm.style.display = '';
+    signUpForm.style.display = 'none';
+  } else {
+    signInTab.classList.remove('active');
+    signUpTab.classList.add('active');
+    signInForm.style.display = 'none';
+    signUpForm.style.display = '';
+  }
+}
+
+// Placeholder for Google authentication
+function googleSignIn() {
+  alert('Google authentication is not yet implemented.');
+}
+
+// Prevent default form submission for demo
+document.addEventListener('DOMContentLoaded', function() {
+  const signInForm = document.getElementById('signin-form');
+  const signUpForm = document.getElementById('signup-form');
+  if (signInForm) signInForm.onsubmit = e => { e.preventDefault(); alert('Signed in! (demo)'); };
+  if (signUpForm) signUpForm.onsubmit = e => { e.preventDefault(); alert('Signed up! (demo)'); };
+});
+
 // ─── MOCK DATA ────────────────────────────────────────────────────────────────
 const ARTICLES = [
   {id:1,source:'HN',title:'OpenAI launches GPT-5 with unlimited context window and real-time web access',excerpt:'The company announced a new flagship model that can process entire codebases in a single prompt, marking a significant leap in AI capabilities.',author:'sama',tags:['AI','LLMs'],time:'2h ago',read:'6 min',upvotes:3241,comments:847,img:'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&q=80'},

@@ -5,7 +5,7 @@
   --text:#e6edf7;--muted:#7e91aa;--border:rgba(102,184,255,0.2);
   --glow:rgba(74,242,197,0.32);--glow2:rgba(102,184,255,0.16);
 }
-body{background:radial-gradient(circle at 20% -10%,rgba(102,184,255,0.15),transparent 45%),radial-gradient(circle at 85% 0,rgba(74,242,197,0.12),transparent 35%),var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden}
+body{background:radial-gradient(circle at 20% -10%,rgba(102,184,255,0.15),transparent 45%),radial-gradient(circle at 85% 0,rgba(74,242,197,0.12),transparent 35%),var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;display:flex;align-items:center;justify-content:center;}
 .mono{font-family:'JetBrains Mono',monospace}
 
 /* SCANLINES */
@@ -58,6 +58,138 @@ nav{position:sticky;top:0;z-index:100;background:rgba(5,10,18,0.84);backdrop-fil
 .term-line{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-bottom:6px;min-height:18px}
 .term-line .g{color:var(--primary)}
 .term-line .c{color:var(--secondary)}
+
+/* AUTH SECTION */
+.auth-section {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 44px 38px 32px;
+  max-width: 440px;
+  box-shadow: 0 0 32px var(--glow2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 520px;
+  z-index: 2;
+}
+
+.auth-heading {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.6rem;
+  color: var(--primary);
+  margin-bottom: 22px;
+  text-align: center;
+  letter-spacing: 0.01em;
+  font-weight: 700;
+}
+.auth-tabs {
+  font-size: 1.1rem;
+}
+.auth-form input, .auth-form button, .google-btn {
+  font-size: 1.08rem;
+}
+.auth-tabs {
+  display: flex;
+  width: 100%;
+  margin-bottom: 18px;
+}
+.auth-tab {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--border);
+  color: var(--muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px;
+  padding: 10px 0;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+.auth-tab.active {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  width: 100%;
+}
+.auth-form input {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 9px 12px;
+  color: var(--text);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.auth-form input:focus {
+  border-color: var(--secondary);
+}
+.auth-form button[type="submit"] {
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  color: #121212;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 4px;
+  box-shadow: 0 2px 8px var(--glow);
+  transition: background 0.2s;
+}
+.auth-form button[type="submit"]:hover {
+  background: linear-gradient(90deg, var(--secondary), var(--primary));
+}
+.auth-divider {
+  text-align: center;
+  color: var(--muted);
+  margin: 8px 0 0 0;
+  font-size: 12px;
+  position: relative;
+}
+.auth-divider:before, .auth-divider:after {
+  content: '';
+  display: inline-block;
+  width: 38px;
+  height: 1px;
+  background: var(--border);
+  vertical-align: middle;
+  margin: 0 8px;
+}
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #fff;
+  color: #222;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 9px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 2px;
+  box-shadow: 0 2px 8px rgba(74,242,197,0.08);
+  transition: background 0.2s, color 0.2s;
+}
+.google-btn:hover {
+  background: #f2f2f2;
+}
+.google-logo {
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+}
 .term-line .w{color:#fff}
 .stats-row{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
 .stat-pill{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--secondary);border-left:2px solid var(--secondary);padding:4px 12px;background:rgba(102,184,255,0.08)}

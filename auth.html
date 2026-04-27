@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In / Sign Up | DevHub</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="devhub.css" />
+</head>
+<body>
+  <canvas id="matrix-canvas"></canvas>
+  <div class="dot-grid"></div>
+  <div class="auth-section">
+    <h2 class="auth-heading">Login to access more news</h2>
+    <div class="auth-tabs">
+      <button id="signInTab" class="auth-tab active" onclick="showAuthForm('signin')">Sign In</button>
+      <button id="signUpTab" class="auth-tab" onclick="showAuthForm('signup')">Sign Up</button>
+    </div>
+    <form id="signin-form" class="auth-form">
+      <input type="email" placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
+      <button type="submit">Sign In</button>
+      <div class="auth-divider">or</div>
+      <button type="button" class="google-btn" onclick="googleSignIn()">
+        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" class="google-logo" />
+        Sign in with Google
+      </button>
+    </form>
+    <form id="signup-form" class="auth-form" style="display:none">
+      <input type="text" placeholder="Name" required />
+      <input type="email" placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
+      <button type="submit">Sign Up</button>
+      <div class="auth-divider">or</div>
+      <button type="button" class="google-btn" onclick="googleSignIn()">
+        <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google logo" class="google-logo" />
+        Sign up with Google
+      </button>
+    </form>
+  </div>
+  <script src="devhub.js"></script>
+  <script>
+    // Matrix rain effect (copied from devhub.js, but self-contained for auth page)
+    document.addEventListener('DOMContentLoaded', function() {
+      const canvas = document.getElementById('matrix-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+      let fontSize = 18;
+      let columns = Math.floor(width / fontSize);
+      let drops = Array(columns).fill(1);
+      function drawMatrix() {
+        ctx.fillStyle = 'rgba(6,11,18,0.18)';
+        ctx.fillRect(0, 0, width, height);
+        ctx.font = fontSize + "px JetBrains Mono, monospace";
+        ctx.fillStyle = '#4af2c5';
+        for (let i = 0; i < drops.length; i++) {
+          let text = String.fromCharCode(0x30A0 + Math.random() * 96);
+          ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+          if (drops[i] * fontSize > height && Math.random() > 0.975) {
+            drops[i] = 0;
+          }
+          drops[i]++;
+        }
+      }
+      setInterval(drawMatrix, 44);
+      window.addEventListener('resize', () => {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+        columns = Math.floor(width / fontSize);
+        drops = Array(columns).fill(1);
+      });
+    });
+  </script>
+</body>
+</html>
