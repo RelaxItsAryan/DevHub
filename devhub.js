@@ -68,6 +68,7 @@ function endBoot() {
   }, 400);
 }
 
+initMatrix();
 runBoot();
 
 // ─── HERO TYPEWRITER ──────────────────────────────────────────────────────────
@@ -96,6 +97,52 @@ function initApp() {
   buildSortBar();
   renderGrid();
   updateSaveBadge();
+}
+
+// ─── MATRIX RAIN BACKGROUND ────────────────────────────────────────────────────
+function initMatrix() {
+  const canvas = document.getElementById('matrix-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let width = window.innerWidth;
+  let height = window.innerHeight;
+  let columns = Math.floor(width / 16);
+  const drops = Array(columns).fill(1);
+
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+    columns = Math.floor(width / 16);
+    drops.length = columns;
+    for (let i = 0; i < columns; i++) {
+      drops[i] = drops[i] || 1;
+    }
+  }
+
+  function draw() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = '#00ff41';
+    ctx.font = '16px JetBrains Mono';
+
+    drops.forEach((y, i) => {
+      const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+      const x = i * 16;
+      ctx.fillText(text, x, y * 16);
+
+      if (y * 16 > height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    });
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  setInterval(draw, 55);
 }
 
 function buildTagBar() {
