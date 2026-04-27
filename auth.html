@@ -6,12 +6,23 @@
   <title>Sign In / Sign Up | DevHub</title>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="devhub.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script>
+    async function initFirebase() {
+      const response = await fetch('/firebase-config');
+      const firebaseConfig = await response.json();
+      firebase.initializeApp(firebaseConfig);
+    }
+    window.firebaseReady = initFirebase();
+  </script>
 </head>
 <body>
   <canvas id="matrix-canvas"></canvas>
   <div class="dot-grid"></div>
   <div class="auth-section">
     <h2 class="auth-heading">Login to access more news</h2>
+    <div id="auth-status" class="auth-status"></div>
     <div class="auth-tabs">
       <button id="signInTab" class="auth-tab active" onclick="showAuthForm('signin')">Sign In</button>
       <button id="signUpTab" class="auth-tab" onclick="showAuthForm('signup')">Sign Up</button>

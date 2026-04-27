@@ -185,6 +185,17 @@ nav{position:sticky;top:0;z-index:100;background:rgba(5,10,18,0.84);backdrop-fil
 .google-btn:hover {
   background: #f2f2f2;
 }
+.auth-status {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 14px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  min-height: 22px;
+  color: var(--text);
+}
+.auth-status.success { color: #8bf7d2; }
+.auth-status.error { color: #ff9a92; }
 .google-logo {
   width: 18px;
   height: 18px;

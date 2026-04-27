@@ -21,17 +21,78 @@ function showAuthForm(type) {
   }
 }
 
-// Placeholder for Google authentication
-function googleSignIn() {
-  alert('Google authentication is not yet implemented.');
+// Firebase auth helpers
+async function googleSignIn() {
+  if (window.firebaseReady) await window.firebaseReady;
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider)
+    .then(() => {
+      setAuthStatus('Success! Redirecting...', 'success');
+      window.location.href = 'https://aryan-verse.netlify.app';
+    })
+    .catch(error => {
+      setAuthStatus(error.message || 'Google sign-in failed.', 'error');
+      console.error('Google sign-in error:', error);
+    });
+}
+
+function setAuthStatus(message, type = 'success') {
+  const status = document.getElementById('auth-status');
+  if (!status) return;
+  status.textContent = message;
+  status.className = `auth-status ${type}`;
+}
+
+async function signInWithEmail(email, password) {
+  try {
+    if (window.firebaseReady) await window.firebaseReady;
+    await firebase.auth().signInWithEmailAndPassword(email, password);
+    setAuthStatus('Success! Redirecting...', 'success');
+    window.location.href = 'https://aryan-verse.netlify.app';
+  } catch (error) {
+    setAuthStatus(error.message || 'Login failed.', 'error');
+    console.error('Firebase login error:', error);
+  }
+}
+
+async function signUpWithEmail(name, email, password) {
+  try {
+    if (window.firebaseReady) await window.firebaseReady;
+    const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+    if (name && userCredential.user) {
+      await userCredential.user.updateProfile({ displayName: name });
+    }
+    setAuthStatus('Account created! Redirecting...', 'success');
+    window.location.href = 'https://aryan-verse.netlify.app';
+  } catch (error) {
+    setAuthStatus(error.message || 'Signup failed.', 'error');
+    console.error('Firebase signup error:', error);
+  }
 }
 
 // Prevent default form submission for demo
 document.addEventListener('DOMContentLoaded', function() {
   const signInForm = document.getElementById('signin-form');
   const signUpForm = document.getElementById('signup-form');
-  if (signInForm) signInForm.onsubmit = e => { e.preventDefault(); alert('Signed in! (demo)'); };
-  if (signUpForm) signUpForm.onsubmit = e => { e.preventDefault(); alert('Signed up! (demo)'); };
+  if (signInForm) {
+    signInForm.onsubmit = async e => {
+      e.preventDefault();
+      const email = signInForm.querySelector('input[type="email"]').value.trim();
+      const password = signInForm.querySelector('input[type="password"]').value;
+      if (!email || !password) return setAuthStatus('Enter both email and password.', 'error');
+      await signInWithEmail(email, password);
+    };
+  }
+  if (signUpForm) {
+    signUpForm.onsubmit = async e => {
+      e.preventDefault();
+      const name = signUpForm.querySelector('input[type="text"]').value.trim();
+      const email = signUpForm.querySelector('input[type="email"]').value.trim();
+      const password = signUpForm.querySelector('input[type="password"]').value;
+      if (!name || !email || !password) return setAuthStatus('Fill out all fields.', 'error');
+      await signUpWithEmail(name, email, password);
+    };
+  }
 });
 
 // ─── MOCK DATA ────────────────────────────────────────────────────────────────
@@ -97,18 +158,22 @@ function runBoot() {
 
 function endBoot() {
   const boot = document.getElementById('boot');
+  if (!boot) return;
   boot.style.transition = 'opacity .4s, transform .4s';
   boot.style.opacity = '0';
   boot.style.transform = 'scale(1.02)';
   setTimeout(() => {
     boot.style.display = 'none';
-    document.getElementById('app').classList.add('visible');
+    const app = document.getElementById('app');
+    if (app) app.classList.add('visible');
     initApp();
   }, 400);
 }
 
 initMatrix();
-runBoot();
+if (document.getElementById('boot')) {
+  runBoot();
+}
 
 // ─── HERO TYPEWRITER ──────────────────────────────────────────────────────────
 function typeWriter(elId, html, speed = 18) {
