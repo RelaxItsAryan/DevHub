@@ -14,9 +14,21 @@
 
 <!-- BOOT SEQUENCE -->
 <div id="boot">
-  <div id="boot-lines"></div>
-  <div class="boot-cursor" id="boot-cursor"></div>
-  <button id="skip-boot" onclick="endBoot()">[ SKIP ]</button>
+  <div class="boot-panel">
+    <div class="boot-kicker mono">DEVHUB // LIVE NEWS GRID</div>
+    <h1 class="boot-title mono">Launching Developer Feed Console</h1>
+    <div id="boot-lines"></div>
+    <div class="boot-footer">
+      <div class="boot-status-wrap">
+        <span class="boot-cursor" id="boot-cursor"></span>
+        <span id="boot-status" class="mono">waiting...</span>
+      </div>
+      <div class="boot-progress">
+        <span id="boot-progress-fill"></span>
+      </div>
+    </div>
+  </div>
+  <button id="skip-boot" onclick="endBoot()">SKIP BOOT</button>
 </div>
 
 <!-- MAIN APP -->
