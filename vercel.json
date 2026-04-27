@@ -2,6 +2,7 @@
   "version": 2,
   "routes": [
     { "src": "/firebase-config", "dest": "/api/firebase-config.js" },
-    { "src": "/", "dest": "/auth.html" }
+    { "src": "/auth", "dest": "/auth.html" },
+    { "src": "/", "dest": "/devhub.html" }
   ]
 }

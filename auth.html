@@ -9,15 +9,45 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script>
+    const firebaseFallbackConfig = {
+      apiKey: "AIzaSyCAwM7wXTzMFoQ5ZeMwCFFSvd_r3dFCRA0",
+      authDomain: "devhub-1ccd0.firebaseapp.com",
+      projectId: "devhub-1ccd0",
+      storageBucket: "devhub-1ccd0.firebasestorage.app",
+      messagingSenderId: "131348647653",
+      appId: "1:131348647653:web:0b48a23a6129a4279e0e0c",
+      measurementId: "G-ST3ECWL5SP"
+    };
+
     async function initFirebase() {
-      const functionPath = window.location.hostname === 'localhost'
-        ? '/firebase-config'
-        : '/.netlify/functions/firebase-config';
-      const response = await fetch(functionPath);
-      const firebaseConfig = await response.json();
+      const isVercel = window.location.hostname.endsWith('vercel.app');
+      const functionPath = isVercel
+        ? '/api/firebase-config'
+        : '/firebase-config';
+      let firebaseConfig = firebaseFallbackConfig;
+
+      if (isVercel || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        try {
+          const response = await fetch(functionPath);
+          if (response.ok) {
+            firebaseConfig = await response.json();
+          } else {
+            console.warn('Firebase config fetch returned', response.status, response.statusText, 'using fallback config.');
+          }
+        } catch (err) {
+          console.warn('Firebase config fetch failed, using fallback config.', err);
+        }
+      }
+
+      if (!firebaseConfig || !firebaseConfig.apiKey) {
+        throw new Error('Firebase config is missing apiKey. Check your Netlify environment variables.');
+      }
       firebase.initializeApp(firebaseConfig);
     }
-    window.firebaseReady = initFirebase();
+    window.firebaseReady = initFirebase().catch(error => {
+      console.error('Firebase init error:', error);
+      window.firebaseInitError = error;
+    });
   </script>
 </head>
 <body>

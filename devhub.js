@@ -23,6 +23,10 @@ function showAuthForm(type) {
 
 // Firebase auth helpers
 async function googleSignIn() {
+  if (window.firebaseInitError) {
+    setAuthStatus(`Firebase init failed: ${window.firebaseInitError.message}`, 'error');
+    return;
+  }
   if (window.firebaseReady) await window.firebaseReady;
   const provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider)
@@ -45,6 +49,10 @@ function setAuthStatus(message, type = 'success') {
 
 async function signInWithEmail(email, password) {
   try {
+    if (window.firebaseInitError) {
+      setAuthStatus(`Firebase init failed: ${window.firebaseInitError.message}`, 'error');
+      return;
+    }
     if (window.firebaseReady) await window.firebaseReady;
     await firebase.auth().signInWithEmailAndPassword(email, password);
     setAuthStatus('Success! Redirecting...', 'success');
@@ -57,6 +65,10 @@ async function signInWithEmail(email, password) {
 
 async function signUpWithEmail(name, email, password) {
   try {
+    if (window.firebaseInitError) {
+      setAuthStatus(`Firebase init failed: ${window.firebaseInitError.message}`, 'error');
+      return;
+    }
     if (window.firebaseReady) await window.firebaseReady;
     const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
     if (name && userCredential.user) {

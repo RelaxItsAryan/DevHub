@@ -1,8 +1,24 @@
 [build]
   command = "npm install"
   publish = "."
+  functions = "netlify/functions"
 
 [[redirects]]
   from = "/"
+  to = "/devhub.html"
+  status = 200
+
+[[redirects]]
+  from = "/auth"
   to = "/auth.html"
+  status = 200
+
+[[redirects]]
+  from = "/devhub"
+  to = "/devhub.html"
+  status = 200
+
+[[redirects]]
+  from = "/firebase-config"
+  to = "/.netlify/functions/firebase-config"
   status = 200
